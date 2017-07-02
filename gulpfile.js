@@ -7,7 +7,8 @@ const gulp = require('gulp'),
       csso = require('gulp-csso'),
       clean = require('gulp-clean'),
       rigger = require('gulp-rigger'),
-      changed = require('gulp-changed');
+      changed = require('gulp-changed'),
+      imagemin = require('gulp-imagemin');
 
 
 var input = 'src/sass/**/*.sass';
@@ -25,7 +26,7 @@ gulp.task('html:templates', function() {
     
 })
 gulp.task('html', function() {
-    gulp.src('src/*.html')
+    gulp.src('src/*.html',  {since: gulp.lastRun('html')})
     .pipe(debug({title: 'html rigger taking...'}))
     .pipe(rigger())
     .pipe(gulp.dest('build'))
@@ -48,7 +49,23 @@ gulp.task('sass', function() {
     .pipe(gulp.dest(otput))
     .pipe(browserSync.reload({stream: true}));
 })
-//clean tasks
+//IMG task
+gulp.task('img', function() {
+    gulp.src(['src/img/**/*.{jpg,png,gif}', 'src/i/**/*.{jpg,png,gif}'], {base: 'src'})
+    .pipe(imagemin({
+        interlaced: true,
+        progressive: true,
+        optimizationLevel: 5,
+        svgoPlugins: [{removeViewBox: true}]
+    }))
+    .pipe(gulp.dest('build'))
+})
+// SVG task
+gulp.task('svg', function(){
+      gulp.src('src/i/svg/**/*.svg', {base: 'src'})
+    .pipe(gulp.dest('build'))
+})
+//clean task
 gulp.task('clean', function() {
     gulp.src('build', {read: false})
     .pipe(clean())
@@ -65,7 +82,7 @@ gulp.task('browser-sync', function() {
 })
 gulp.task('default', ['sass', 'watch', 'browser-sync']);
 
-
+// Watchers tasks
 gulp.task('watch', function() {
     gulp.watch('src/sass/**/*.sass', ['sass'])
     gulp.watch('src/*.html', ['html'])
