@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.sass"],"names":[],"mappings":"AAAA,I,CACI,gBACA,oBAAA,oBAAA,aACA,yBAAA,6BACA,4B","file":"../main.css","sourcesContent":["body {\n    background: white;\n    display: flex;\n    justify-content: space-around;\n    justify-content: space-around; }\n"]}
