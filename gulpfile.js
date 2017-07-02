@@ -6,7 +6,8 @@ const gulp = require('gulp'),
       browserSync = require('browser-sync').create(),
       csso = require('gulp-csso'),
       clean = require('gulp-clean'),
-      rigger = require('gulp-rigger');
+      rigger = require('gulp-rigger'),
+      changed = require('gulp-changed');
 
 
 var input = 'src/sass/**/*.sass';
@@ -34,6 +35,7 @@ gulp.task('html', function() {
 // CSS/SASS
 gulp.task('sass', function() {
     return gulp.src(input)
+    .pipe(changed('build/css'))
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
@@ -48,7 +50,7 @@ gulp.task('sass', function() {
 })
 //clean tasks
 gulp.task('clean', function() {
-    gulp.src('build/css', {read: false})
+    gulp.src('build', {read: false})
     .pipe(clean())
 })
 // BS tasks
