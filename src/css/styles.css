@@ -1,0 +1,13 @@
+@import "main.css";
+
+$bg_col: white;
+
+.items {
+    display: flex;
+    list-style: none;
+    background: $bg_col;
+    
+    &__block {
+        width: 50px;
+    }
+}
